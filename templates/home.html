@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <!-- Date Picker -->
+    <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+    
+    <title>Zero Waste</title>
+
+  </head>
+
+  <body>
+    <div class="container justify-content-center" style="max-width: 700px;">
+
+      <div class="row m-5" name="header">
+        <div class="col">
+          <h1 class="text-center font-weight-light">Zero Waste</h1>
+        </div>
+      </div>
+
+      <div class="row justify-content-center m-5" name="inputForms">
+        <form class="form-inline" method="POST" action="/">
+          <div class="col">
+            <label class="sr-only" for="inlineFormInputProduct">Product</label>
+            <input type="text" class="form-control" id="inlineFormInputProduct" name="title" placeholder="Eggs" autocomplete="off">
+          </div>
+          <div class="col">
+            <label class="sr-only" for="inlineFormInputGroupDate">Date</label>
+             <div class="input-group">
+              <input class="form-control" id="datepicker" width="180" name="date" placeholder="DD/MM/YYYY" autocomplete="off">
+              <!--<input type="text" class="form-control" id="inlineFormInputGroupDate" name="date" placeholder="DD/MM/YYYY">-->
+            </div>
+          </div>
+          <div class="col">
+           <button type="submit" class="btn btn-outline-secondary">Add</button>
+          </div>
+         </form>
+        </div>
+     
+      <div class="row table-responsive-md" name="productlist">
+        <table class="table table-borderless table-hover text-center">
+          <thead>
+            <tr>
+              <th scope="col">Product</th>
+              <th scope="col">Expiry Date</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in all_items %}
+            {% if item.expired == 0 %}
+            <tr>
+              <td scope="row">{{item.title}}</td>
+              <td>{{item.date.strftime("%d/%m/%Y")}}</td>
+              <td>
+                <form method="POST" action="./delete" style="display: inline">
+                  <input type="hidden" value="{{item.id}}" name="id">
+                  <button type="submit" class="close" value="Delete">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </form>
+              </td>
+            </tr>
+            {% else %}
+            <tr class="table-danger">
+              <td scope="row">{{item.title}}</td>
+              <td>{{item.date.strftime("%d/%m/%Y")}}</td>
+              <td>
+                <form method="POST" action="./delete" style="display: inline">
+                  <input type="hidden" value="{{item.id}}" name="id">
+                  <button type="submit" class="close" value="Delete">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </form>
+              </td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="row m-5" name="footer">
+
+      </div>
+    </div>
+          <!--{% for item in all_items %}
+            <tr>
+              <td>
+                <ul class="list-group">
+                {% if item.expired == 1 %}
+                <li class="list-group-item list-group-item-danger">
+                  <div class="col">
+                    {{item.title}}
+                  </div> 
+                  <div class="col">
+                    {{item.date.strftime("%d/%m/%Y")}}
+                  </div>
+                </li>
+                {% else %}
+                <li class="list-group-item list-group-item-success">
+                  {{item.title}} {{item.date.strftime("%d/%m/%Y")}}
+                </li>
+              </ul>
+            </td>
+              {% endif %}
+              <td>
+                <form method="POST" action="./delete" style="display: inline">
+                  <input type="hidden" value="{{item.id}}" name="id">
+                  <button type="submit" class="close" value="Delete">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+          -->
+    
+    <!-- Optional JavaScript -->
+    <script>
+      $('#datepicker').datepicker({
+          uiLibrary: 'bootstrap4',
+          format: 'dd/mm/yyyy'
+      });
+
+      $("#inlineFormInputProduct").focus();
+    </script>
+    
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  </body>
+</html>
