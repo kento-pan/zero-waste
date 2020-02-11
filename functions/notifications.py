@@ -16,7 +16,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 functions_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.abspath(os.path.join(functions_dir, os.pardir))
-database_file = f"sqlite:///{(os.path.join(parent_dir, 'mydatabse.db'))}"
+database_file = f"sqlite:///{(os.path.join(parent_dir, 'foodyea.db'))}"
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = database_file
